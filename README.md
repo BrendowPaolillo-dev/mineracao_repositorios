@@ -12,7 +12,7 @@ Inicialmente utilizamos o Perceval para obtermos o primeiro json (coleta_zulip.j
 ### Filtragem dos dados <h3>
 Esse Json possuia muitas informações que para nossa análise de repositório não tinham necessidade, pois não obteríamos nenhuma informação útil para nossa mineração, então através do excel diminiu-se o arquivo para outro json (sortedByUsers.json) afim de fazer uma filtragem dos dados. Nesse segundo json, apenas foi deixado as informações do usuário que finalizou o pullrequest e as informação do seu respectivo pullrequest finalizado, um por um caso tivesse mais de um pullrequest finalizado por aquele usuário. A seguir uma demonstração de como ficou o json com os dados filtrados:
 
-ˋˋˋjson
+```json
 "1":{
     "USER": "007",
     "COLETA": 202,
@@ -21,12 +21,12 @@ Esse Json possuia muitas informações que para nossa análise de repositório n
     "PULLNUMBER": 608,
     "EMAIL": "",
     "NOME": "Ryan Moore"
- ˋˋˋ
+```
 
 ### Agrupar os pullrequests por usuário <h3>
 Em nossa filtragem anterior pegamos em nosso json alguns dados necessários para nossa mineração, mas os dados ainda estavam separados por pullrequest de um usuário. Então para melhor visualização separamos o json por usuário, este por vez contendo todos os seus respectivos pullrequest assim criando outro json(filtrados.json). Para obter esse json fizemos o seguinte trecho de código:
 
-ˋˋˋpython
+```python
 x = []
 media = 0
 not_exists = False  
@@ -54,11 +54,11 @@ with open('teste.json') as json_file:
     
     with open("filtrados.json", 'w', encoding='utf-8') as f:
         #json.dump(x, f, ensure_ascii=False, indent=4)
- ˋˋˋ
+ ```
 
 ### filtrados.json <h3>
 
-ˋˋˋjson
+```json
 {
         "USER": "1Niels",
         "PULLREQUESTS": [
@@ -77,12 +77,12 @@ with open('teste.json') as json_file:
             "Hey, I added a new page to the documentation on changing stream colors. I'd appreciate any comments or suggestions. Thanks!"
         ]
     },
-ˋˋˋ
+```
 
 ### Média de pullrequests <h3>
 Para obtermos um melhor resultado optamos por excluir os dados dos usuários com poucos pullrequets, para isso fizemos uma média dos pullrequests e depois excluimos os usuário com menos pullrequests que a média e por fim criamos o json final(finalResults.json). A seguir veja o trecho de código feito para obter o json:
 
-ˋˋˋpython
+```python
     qtd_pr = len(y)
     qtd_users = len(x)
     media = qtd_pr/qtd_users
@@ -105,12 +105,12 @@ Para obtermos um melhor resultado optamos por excluir os dados dos usuários com
 
     with open("media.json", 'w', encoding='utf-8') as f:
         json.dump(x, f, ensure_ascii=False, indent=4)
- ˋˋˋ
+ ```
 
  ### Classificação dos usuários <h3>
  Para a classificação das áreas de atuação dos usuário foi feito manualmente o processo de classificar os pullrequests, avaliando o nome, corpo do pullrequest e arquivos de commit, dando no total de 996 e dentre eles 36 usuários, resultando no arquivo classifiedResults.json. Para a classificação deixamos as opções de ser da área das seguintes atuações: full-stack, back-end, front-end, desktop, mobile, DevOps, Data scientist, Documentation. Veja um exemplo a seguir:
 
-ˋˋˋjson
+```json
 {
     "USER": "blablacio",
     "PULLREQUESTS": [
@@ -166,7 +166,7 @@ Para obtermos um melhor resultado optamos por excluir os dados dos usuários com
       "DevOps"
     ]
   },
-ˋˋˋ
+```
 ### Conclusão <h3>
 
 Para finalizar, o arquivo mined_results.ipynb, demonstra a analise dos dados, avaliando a quantidade de pullrequests dentro de cada categoria e a distribuição de tipos de pullrequests para cada programador.
